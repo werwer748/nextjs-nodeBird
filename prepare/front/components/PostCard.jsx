@@ -34,7 +34,6 @@ const PostCard = ({ post }) => {
                 cover={post.Images && <PostImages images={post.Images} />}
                 actions={[
                     <RetweetOutlined key="retweet" />,
-
                     (
                         liked ?
                             <HeartTwoTone
@@ -45,7 +44,6 @@ const PostCard = ({ post }) => {
                             :
                             <HeartOutlined key="heart" onClick={onToggleLike} />
                     ),
-
                     <MessageOutlined key="comment" onClick={onToggleComment} />,
                     <Popover key="more" content={(
                         <Button.Group>

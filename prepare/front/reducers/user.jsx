@@ -7,7 +7,7 @@ export const initialState = {
     logOutError: null,
     signUpLoading: false, //회원가입 시도중
     signUpDone: false,
-    signUpFailure: null,
+    signUpError: null,
 
     me: null,
     signUpData: {},
@@ -46,14 +46,14 @@ const dummyUser = (data) => ({
 export const loginRequestAction = (data) => {
     return {
         type: LOG_IN_REQUEST,
-        data
-    }
+        data,
+    };
 };
 
 export const logoutRequestAction = () => {
     return {
         type: LOG_OUT_REQUEST,
-    }
+    };
 };
 
 const reducer = (state = initialState, action) => {
@@ -64,13 +64,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 logInLoading: true,
                 logInError: null,
+                logInDone: false,
             };
         case LOG_IN_SUCCESS:
             return {
                 ...state,
                 logInLoading: false,
                 logInDone: true,
-                me: dummyUser(action.data),
+                me: (dummyUser(action.data)),
             };
         case LOG_IN_FAILURE:
             return {
@@ -83,7 +84,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 logOutLoading: true,
                 logOutDone: false,
-                logOutError: null
+                logOutError: null,
             };
         case LOG_OUT_SUCCESS:
             return {
@@ -96,7 +97,26 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 logOutLoading: false,
-                logOutError: action.error
+                logOutError: action.error,
+            };
+        case SIGN_UP_REQUEST:
+            return {
+                ...state,
+                signUpLoading: true,
+                signUpDone: false,
+                signUpError: null,
+            };
+        case SIGN_UP_SUCCESS:
+            return {
+                ...state,
+                signUpLoading: false,
+                signUpDone: true,
+            };
+        case SIGN_UP_FAILURE:
+            return {
+                ...state,
+                signUpLoading: false,
+                signUpError: action.error,
             };
         default:
             return state;

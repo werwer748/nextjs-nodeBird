@@ -6,15 +6,17 @@ import {
     HeartOutlined,
     MessageOutlined,
     RetweetOutlined,
-    HeartTwoTone
+    HeartTwoTone,
 } from '@ant-design/icons';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
+import { REMOVE_POST_REQUEST } from "../reducers/post";
 
 const PostCard = ({ post }) => {
+    const dispatch = useDispatch();
     const [liked, setLiked] = useState(false);
     const [commentFormOpened, setCommendFormOpened] = useState(false);
 
@@ -26,7 +28,15 @@ const PostCard = ({ post }) => {
         setCommendFormOpened((prev) => !prev);
     }, []);
 
+    const onRemovePost = useCallback(() => {
+        dispatch({
+            type: REMOVE_POST_REQUEST,
+            data: post.id,
+        });
+    }, []);
+
     const id = useSelector((state) => state.user.me?.id);
+    const { removePostLoading } = useSelector((state) => state.post);
 
     return (
         <div style={{ marginBottom: 15 }}>
@@ -35,30 +45,34 @@ const PostCard = ({ post }) => {
                 actions={[
                     <RetweetOutlined key="retweet" />,
                     (
-                        liked ?
+                        liked ? (
                             <HeartTwoTone
                                 twoToneColor="#eb2f96"
                                 key="heart"
                                 onClick={onToggleLike}
                             />
+                        )
                             :
                             <HeartOutlined key="heart" onClick={onToggleLike} />
                     ),
                     <MessageOutlined key="comment" onClick={onToggleComment} />,
-                    <Popover key="more" content={(
-                        <Button.Group>
-                            {id && post.User.id === id ? (
-                                <>
-                                    <Button>수정</Button>
-                                    <Button type="danger">삭제</Button>
-                                </>
-                            ) :
-                                <Button>신고</Button>
-                            }
-                        </Button.Group>
-                    )}>
+                    <Popover
+                        key="more"
+                        content={(
+                            <Button.Group>
+                                {id && post.User.id === id ? (
+                                    <>
+                                        <Button>수정</Button>
+                                        <Button type="danger" loading={removePostLoading} onClick={onRemovePost}>삭제</Button>
+                                    </>
+                                ) :
+                                    <Button>신고</Button>
+                                }
+                            </Button.Group>
+                        )}
+                    >
                         <EllipsisOutlined />
-                    </Popover>
+                    </Popover>,
                 ]}
             >
                 <Card.Meta
@@ -88,13 +102,13 @@ const PostCard = ({ post }) => {
             )}
             {/* <CommentForm />
             <Comments /> */}
-        </div >
+        </div>
     );
 };
 
 PostCard.propTypes = {
     post: PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.any,
         User: PropTypes.object,
         content: PropTypes.string,
         createdAt: PropTypes.object,

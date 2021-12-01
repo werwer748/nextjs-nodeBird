@@ -1,0 +1,10 @@
+const mysql = require('mysql2');
+const dbsecret = require('../config/db.json');
+
+const pool = mysql.createConnection(
+    dbsecret
+);
+ 
+const promisePool = pool.promise();
+
+module.exports = promisePool;

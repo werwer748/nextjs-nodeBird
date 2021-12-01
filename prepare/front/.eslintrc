@@ -40,6 +40,7 @@
         "no-multiple-empty-lines": "off",
         "operator-linebreak":"off",
         "react/jsx-curly-newline": "off",
-        "max-len":"off"
+        "max-len":"off",
+        "no-alert": "off"
     }
 }

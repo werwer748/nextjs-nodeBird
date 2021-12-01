@@ -49,3 +49,15 @@ CREATE TABLE users(
     DEFAULT COLLATE = utf8_general_ci
     ENGINE = InnoDB;
 */
+
+/*
+CREATE TABLE `Like`(
+    Liked INT NOT NULL,
+    Likers INT NOT NULL
+);
+
+CREATE TABLE `Follow`(
+    followingId INT NOT NULL,
+    followerId INT NOT NULL
+);
+*/

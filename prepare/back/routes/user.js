@@ -5,12 +5,45 @@ const pool = require('../lib/pool');
 
 const router = express.Router();
 
-router.post('/login', passport.authenticate('local'), (err, user, info) => { //서버에러, 성공객체, 인포
+router.post('/login', (req,res,next) => {
+    passport.authenticate('local', (err, user, info) => { //서버에러, 성공객체, 인포
+        if(err){
+            console.error(err);
+            return next(err);
+        }
+        if(info){
+            return res.status(401).send(info.reason);
+        }
+        return req.login(user, async (loginErr) => {
+            if(loginErr) { //passport 로그인 에러
+                console.error(loginErr);
+                return next(loginErr);
+            }
+            console.log(user);
+            const [WithoutPassword] = await pool.query(`
+                SELECT id, email, nickname FROM users WHERE users.id=?
+            `,[user.id]);
+            const [UserPost] = await pool.query(`
+                SELECT * FROM react_nodebird.users RIGHT JOIN react_nodebird.posts ON users.id=posts.UserId WHERE users.id=?;
+            `,[user.id]);
+            return res.status(200).json({
+                id: WithoutPassword[0].id,
+                nickname: WithoutPassword[0].nickname,
+                Posts: UserPost,
+                Followings: [],
+                Followers: [],
+            });
+        })
+    })(req,res,next); //미들웨어 확장 (express 기법)
+});
 
+router.post('/logout', (req,res) => {
+    req.logout();
+    req.session.destroy();
+    res.send('ok');
 });
 
 router.post('/', async (req,res,next) => { // POST   /user/
-    console.log('요청받음');
     try{
         const { email, nickname, password } = req.body;
         const [exUser] = await pool.query(`

@@ -1,13 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const dotenv =require('dotenv');
 
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 // const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
+dotenv.config();
 const app = express();
-
 // sequelize.sync()
 // .then(() => {
 //     console.log('db 연결 성공!');
@@ -22,6 +26,14 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); //쿠키와 세션 브라우져와 서버가 같은 정보를 가지고있어야하기 때문
+app.use(session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
     res.send('hello express');

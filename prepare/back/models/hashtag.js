@@ -25,7 +25,7 @@ module.exports = class Hashtag extends Sequelize.Model {
 CREATE TABLE hashtags(
     id INT NOT NULL AUTO_INCREMENT,
     content VARCHAR(20) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT now(), 추가
+    created_at DATETIME NOT NULL DEFAULT now(),
     PRIMARY KEY(id))
     DEFAULT CHARACTER SET =  utf8
     DEFAULT COLLATE = utf8_general_ci

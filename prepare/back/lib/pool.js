@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const dbsecret = require('../config/db.json');
+const dbsecret = require('../config/db');
 
 const pool = mysql.createConnection(
     dbsecret

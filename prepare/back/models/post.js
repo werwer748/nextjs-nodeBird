@@ -41,4 +41,8 @@ CREATE TABLE posts(
     DEFAULT COLLATE = utf8mb4_general_ci
     ENGINE = InnoDB;
 
+CREATE TABLE PostHashtag(
+    PostId INT NOT NULL,
+    HashtagId INT NOT NULL
+)
 */

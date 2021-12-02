@@ -19,19 +19,33 @@ router.post('/login', (req,res,next) => {
                 console.error(loginErr);
                 return next(loginErr);
             }
-            console.log(user);
             const [WithoutPassword] = await pool.query(`
                 SELECT id, email, nickname FROM users WHERE users.id=?
             `,[user.id]);
             const [UserPost] = await pool.query(`
-                SELECT * FROM react_nodebird.users RIGHT JOIN react_nodebird.posts ON users.id=posts.UserId WHERE users.id=?;
+                SELECT posts.id as Posts
+                FROM users 
+                JOIN posts AS Posts ON users.id=posts.UserId
+                WHERE users.id=?;
+            `,[user.id]);
+            const [UserFollower] = await pool.query(`
+                SELECT Follow.FollowingId as Followers
+                FROM users 
+                JOIN Follow ON users.id=Follow.FollowingId
+                WHERE users.id=?;
+            `,[user.id]);
+            const [UserFollowing] = await pool.query(`
+                SELECT Follow.FollowerId as Followings
+                FROM users 
+                JOIN Follow ON users.id=Follow.FollowerId
+                WHERE users.id=?;
             `,[user.id]);
             return res.status(200).json({
                 id: WithoutPassword[0].id,
                 nickname: WithoutPassword[0].nickname,
                 Posts: UserPost,
-                Followings: [],
-                Followers: [],
+                Followings: UserFollowing,
+                Followers: UserFollower,
             });
         })
     })(req,res,next); //미들웨어 확장 (express 기법)

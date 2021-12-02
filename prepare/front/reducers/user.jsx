@@ -52,14 +52,14 @@ export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
-const dummyUser = (data) => ({
-    ...data,
-    nickname: '휴고강',
-    id: 1,
-    Posts: [{ id: 1 }],
-    Followings: [{ nickname: '손오공' }, { nickname: '손오반' }, { nickname: '손오천' }],
-    Followers: [{ nickname: '손오공' }, { nickname: '손오반' }, { nickname: '손오천' }],
-});
+// const dummyUser = (data) => ({
+//     ...data,
+//     nickname: '휴고강',
+//     id: 1,
+//     Posts: [{ id: 1 }],
+//     Followings: [{ nickname: '손오공' }, { nickname: '손오반' }, { nickname: '손오천' }],
+//     Followers: [{ nickname: '손오공' }, { nickname: '손오반' }, { nickname: '손오천' }],
+// });
 
 export const loginRequestAction = (data) => {
     return {

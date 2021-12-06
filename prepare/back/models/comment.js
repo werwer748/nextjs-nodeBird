@@ -15,7 +15,7 @@ module.exports = class Comment extends Sequelize.Model {
             charset: 'utf8',
             collate: 'utf8_general_ci', // 한글 저장
         });
-    };
+    }
 
     static associtate(db){
         db.Comment.belongsTo(db.User);

@@ -15,11 +15,11 @@ module.exports = class Post extends Sequelize.Model {
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci', // 한글 + 임티 저장
         });
-    };
+    }
 
     static associtate(db){
         db.Post.belongsTo(db.User);
-        db.Post.belongsToMany(db.Hashtag);
+        db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
         db.Post.hasMany(db.Comment);
         db.Post.hasMany(db.Image);
         db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers'});

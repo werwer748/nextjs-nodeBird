@@ -16,8 +16,9 @@ module.exports = class Hashtag extends Sequelize.Model {
             collate: 'utf8_general_ci', // 한글 저장
         });
     }
+
     static associtate(db){
-        db.Hashtag.belongsToMany(db.Post);
+        db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
     };
 };
 

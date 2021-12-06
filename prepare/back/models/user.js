@@ -7,7 +7,7 @@ module.exports = class User extends Sequelize.Model {
             email: {
                 type: Sequelize.STRING(30),
                 allowNull: false, // false: 필수, true: ㄴㄴ
-                unique: true,
+                unique: true, //고유한 값
             },
             nickname: {
                 type: Sequelize.STRING(30),
@@ -18,14 +18,14 @@ module.exports = class User extends Sequelize.Model {
                 allowNull: false,
             },
         },{
-            sequelize,
             modelName: 'User',
             tableName: 'users',
             timestamps: true,
             charset: 'utf8',
             collate: 'utf8_general_ci', // 한글 저장
+            sequelize,
         });
-    };
+    }
 
     static associtate(db){
         db.User.hasMany(db.Post);

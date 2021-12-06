@@ -7,17 +7,16 @@ const dotenv =require('dotenv');
 
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
-// const { sequelize } = require('./models');
+const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
 dotenv.config();
 const app = express();
-// sequelize.sync()
-// .then(() => {
-//     console.log('db 연결 성공!');
-// })
-// .catch(console.error);
-
+sequelize.sync({ force: false })
+.then(() => {
+    console.log('db 연결 성공!');
+})
+.catch(console.error);
 passportConfig();
 
 app.use(cors({

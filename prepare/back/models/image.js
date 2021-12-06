@@ -16,6 +16,7 @@ module.exports = class Image extends Sequelize.Model {
             collate: 'utf8_general_ci', // 한글 저장
         });
     }
+    
     static associtate(db){
         db.Image.belongsTo(db.Post);
     };

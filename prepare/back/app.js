@@ -25,7 +25,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser()); //쿠키와 세션 브라우져와 서버가 같은 정보를 가지고있어야하기 때문
+app.use(cookieParser(process.env.COOKIE_SECRET)); //쿠키와 세션 브라우져와 서버가 같은 정보를 가지고있어야하기 때문
 app.use(session({
     saveUninitialized: false,
     resave: false,
@@ -50,7 +50,7 @@ app.get('/posts', (req, res) => {
     ]);
 });
 
-app.use('/post',postRouter);
+app.use('/post', postRouter);
 app.use('/user', userRouter);
 
 app.listen(3065, () => {

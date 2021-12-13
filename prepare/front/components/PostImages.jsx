@@ -35,7 +35,7 @@ const PostImages = ({ images }) => {
     return (
         <>
             <div>
-                <img role="presentation" style={{ width: "50%" }} src={images[0].src} alt={images[0].src} onClick={onZoom} />
+                <img role="presentation" style={{ width: "50%" }} src={images[0]?.src} alt={images[0]?.src} onClick={onZoom} />
                 <div
                     role="presentation"
                     style={{ display: 'inline-block', width: "50%", textAlign: 'center', verticalAlign: 'middle' }}
@@ -53,7 +53,7 @@ const PostImages = ({ images }) => {
 };
 
 PostImages.propTypes = {
-    images: PropTypes.arrayOf(PropTypes.object),
+    images: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PostImages;

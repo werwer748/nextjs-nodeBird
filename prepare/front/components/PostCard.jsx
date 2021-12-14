@@ -88,7 +88,7 @@ const PostCard = ({ post }) => {
                     <CommentForm post={post} />
                     <List
                         header={`${post.Comments.length}개의 댓글`}
-                        itemLayou="horizontal"
+                        itemLayout="horizontal"
                         dataSource={post.Comments}
                         renderItem={(item) => (
                             <li>
